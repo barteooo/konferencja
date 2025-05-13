@@ -55,3 +55,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     animateLogos();
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const sponsorTrack = document.querySelector(".sponsor-track");
+    let startPos = 0; 
+    const speed = 0.65;
+    function animate() {
+
+        startPos -= speed; 
+        sponsorTrack.style.transform = `translateX(${startPos}px)`;
+
+        if (startPos <= -sponsorTrack.offsetWidth) {
+            startPos = 0;
+        }
+
+
+        requestAnimationFrame(animate);
+    }
+
+
+    animate();
+});
