@@ -36,7 +36,7 @@ body {
     position: absolute;
     top: 10px;
     left: 20px;
-    width: 90px;
+    width: 150px;
     height: auto;
     z-index: 10;
 }
@@ -117,24 +117,10 @@ body {
     margin-top: 2rem;
 }
 
-.logo-container {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    flex-shrink: 0;
-    transform: translateY(20px);
-    opacity: 0;
-    animation: slideUp 0.8s ease-out forwards;
-    animation-delay: 0.4s;
-    position: relative;
-    z-index: 2;
-}
-
 .logo-bg {
     position: absolute;
     width: 350px;
-    opacity: 0.1;
+    opacity: 0.15;
     pointer-events: none;
     filter: brightness(1.2) blur(1px);
     mix-blend-mode: screen;
@@ -144,7 +130,7 @@ body {
 .event-details {
     color: white;
     background-color: rgba(0, 0, 0, 0.3);
-    padding: 1.5rem;
+    padding: 1.7rem;
     border-radius: 15px;
     backdrop-filter: blur(5px);
     transform: translateY(20px);
@@ -154,7 +140,7 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     z-index: 2;
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
 }
 
@@ -206,21 +192,24 @@ body {
 }
 
 .two-column-layout {
-
+    
     display: grid;
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: auto auto; 
-    gap: 2rem;
+    gap: 0 2rem;
     align-items: stretch;
 }
 
 .agenda-day {
+    display: none;
     max-width: 600px;
     background-color: var(--white);
     border-radius: 8px;
     padding: 1.5rem;
+    opacity: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.3s ease;
+    transition: opacity 1s ease, transform 1s ease;
+    transform: translateY(20px);
 }
 
 .agenda-day-1 {
@@ -246,6 +235,47 @@ body {
     font-weight: 700;
     padding-bottom: 0.8rem;
     border-bottom: 2px solid #ccc;
+}
+.agenda-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.5 rem;
+    flex-wrap: wrap;
+}
+
+.agenda-tab {
+    padding: 0.6rem 3.2rem;
+    background-color: #ffffff;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: #007bff;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.agenda-tab:hover {
+    background-color: #e6f0ff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.agenda-tab.active {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+.agenda-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.agenda-day.active {
+    display: block;
+    opacity: 1;
 }
 
 .schedule {
@@ -412,19 +442,46 @@ footer {
         gap: 1rem;
     }
     .two-column-layout {
+        gap: 2rem;
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
     }
-
+    .agenda-day {
+        max-width: 100%;
+    }
     .agenda-day-1,
     .agenda-day-2,
     .info-column {
         grid-column: 1 !important;
         grid-row: auto;
     }
+    .agenda-tabs {
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .agenda-tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        flex: 1 1 auto; 
+        text-align: center;
+    }
 }
 
 @media (max-width: 768px) {
+    
+    .sponsor-track {
+        gap: 2rem;
+        animation-duration: 20s;
+    }
+
+    .sponsor-bar img {
+        height: 35px;
+    }
+
+    .sponsor-bar {
+        padding: 0.5rem 0;
+    }
     .main-content {
         padding: 1rem 0;
     }
@@ -484,7 +541,7 @@ footer {
 
 .sponsor-bar {
     overflow: hidden;
-    background: #e0e0e0;
+    background: rgb(184, 199, 212);
     padding: 1rem 0;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -495,14 +552,22 @@ footer {
     display: flex;
     gap: 4rem;
     width: max-content;
-    animation: scroll-logos 30s linear infinite;
+    animation: scrollLoop 25s linear infinite;
     align-items: center;
 }
 
 .sponsor-bar img {
     height: 50px;
+    object-fit: contain;
     width: auto;
-
-    opacity: 0.8;
     transition: filter 0.3s, opacity 0.3s;
+}
+
+@keyframes scrollLoop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

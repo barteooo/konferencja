@@ -7,24 +7,40 @@ document.addEventListener('DOMContentLoaded', () => {
     let headerHeight = header.offsetHeight;
 
     const corners = [
-        { x: 0, y: 0 }, // lewy górny
-        { x: headerWidth - 80, y: 0 }, // prawy górny
-        { x: 0, y: headerHeight - 80 }, // lewy dolny
-        { x: headerWidth - 80, y: headerHeight - 80 }, // prawy dolny
-        { x: headerWidth / 2 - 40, y: headerHeight / 2 - 40 } // środek (opcjonalnie)
+        { x: 0, y: 0 },                                 
+        { x: 0, y: headerHeight - 80 },                 
+        { x: headerWidth - 80, y: 0 },                  
+        { x: headerWidth - 80, y: headerHeight - 80 },  
+        { x: headerWidth / 2 - 40, y: headerHeight / 2 - 40 } 
     ];
 
     for (let i = 0; i < logosCount; i++) {
         const img = document.createElement('img');
         img.src = 'logo-ug.png';
         img.className = 'logo-bg';
+        img.style.position = 'absolute';
 
         const corner = corners[i % corners.length];
         const posX = corner.x;
         const posY = corner.y;
 
-        const speedX = 0.3 + Math.random() * 0.3;
-        const speedY = 0.3 + Math.random() * 0.3;
+
+        let speedX = 0, speedY = 0;
+        const baseSpeed = 0.4 + Math.random() * 0.3;
+
+        if (i === 0 || i === 1) {
+
+            speedX = baseSpeed;
+            speedY = 0;
+        } else if (i === 2 || i === 3) {
+
+            speedX = -baseSpeed;
+            speedY = 0;
+        } else {
+
+            speedX = baseSpeed;
+            speedY = baseSpeed;
+        }
 
         img.style.left = posX + 'px';
         img.style.top = posY + 'px';
@@ -56,23 +72,26 @@ document.addEventListener('DOMContentLoaded', () => {
     animateLogos();
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    const sponsorTrack = document.querySelector(".sponsor-track");
-    let startPos = 0; 
-    const speed = 0.65;
-    function animate() {
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs = document.querySelectorAll('.agenda-tab');
+    const days = document.querySelectorAll('.agenda-day');
 
-        startPos -= speed; 
-        sponsorTrack.style.transform = `translateX(${startPos}px)`;
+    const defaultDay = document.querySelector('.agenda-day-1');
+    defaultDay.classList.add('active');
 
-        if (startPos <= -sponsorTrack.offsetWidth) {
-            startPos = 0;
-        }
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const selectedDay = tab.dataset.day;
 
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
 
-        requestAnimationFrame(animate);
-    }
+            days.forEach(d => {
+                d.classList.remove('active');
+            });
 
-
-    animate();
+            const newActive = document.querySelector(`.agenda-day-${selectedDay}`);
+            newActive.classList.add('active');
+        });
+    });
 });
